@@ -1,0 +1,7 @@
+layout: columns # Two options: 'columns' or 'rows'
+services:
+  - name: # The name of your service
+    url: https://example.com
+    icon: .svg # Check for the icon you want at https://github.com/homarr-labs/dashboard-icons
+    category: # The name of your category
+    statusCheck: https://example.com # Dummy version working, still didn't add any logic to be able to traverse CORS limited scenarios.
