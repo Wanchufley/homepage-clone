@@ -1,3 +1,7 @@
+background:
+  type: # "image" or "color" without quotes, and then uncomment the respective option underneath.
+#  image: "URL of the image"
+#  color: "hex value, named color,..."
 layout: columns # Two options: 'columns' or 'rows'
 services:
   - name: # The name of your service

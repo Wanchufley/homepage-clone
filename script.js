@@ -70,14 +70,12 @@ async function renderDashboard(data) {
 
   // Set layout class for the whole page (categories container)
   const layoutClass = layout === 'columns'
-    ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'
+    ? 'grid gap-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]'
     : 'flex flex-col gap-2';
 
-  // Create container element for all category blocks
   const layoutContainer = document.createElement('div');
   layoutContainer.className = layoutClass;
 
-  // Create category blocks
   for (const [category, items] of Object.entries(categories)) {
     const section = document.createElement('section');
     section.className = 'gap-2';
@@ -108,7 +106,26 @@ async function renderDashboard(data) {
   container.appendChild(layoutContainer);
 }
 
+function applyBackground(background) {
+  const body = document.getElementById('dashboard-body');
+
+  if (!background || !background.type) return;
+
+  if (background.type === 'color' && background.color) {
+    body.style.backgroundColor = background.color;
+    body.style.backgroundImage = 'none';
+  }
+  if (background.type === 'image' && background.image) {
+    body.style.backgroundImage = `url("${background.image}")`;
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundRepeat = 'no-repeat';
+    body.style.backgroundColor = '';
+  }
+}
+
 loadYAML('data.yaml').then(data => {
+  applyBackground(data.background);
   renderDashboard(data);
 });
 
