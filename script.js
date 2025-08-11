@@ -40,17 +40,17 @@ function createCard(service) {
   const iconUrl = `https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/${ext}/${service.icon}`;
 
   const id = `service-${Math.random().toString(36).substr(2, 9)}`;
-
-
   return `
-    <a id="${id}" href="${service.url}" target="_blank"
-       class="relative bg-gray-700 hover:bg-gray-500 transition rounded-md p-2 shadow-lg flex flex-col">
-      <span class="absolute top-2 left-2 bg-gray-600 bg-opacity-80 text-white text-xs font-semibold px-2 py-1 rounded-md">
+  <a id="${id}" href="${service.url}" target="_blank"
+     class="relative bg-gray-500/50 hover:bg-white/70 transition rounded-md p-2 shadow-lg flex flex-col">
+    <div class="flex items-center justify-start gap-2">
+      <img src="${iconUrl}" alt="${service.name}" class="w-12 h-12" />
+      <span class="bg-gray-600 bg-opacity-80 text-white text-sm font-semibold px-2 py-1 rounded-md">
         ${service.name}
       </span>
-      <img src="${iconUrl}" alt="${service.name}" class="w-12 h-12 mt-8" />
-    </a>
-  `;
+    </div>
+  </a>
+`;
 }
 
 async function renderDashboard(data) {
@@ -80,9 +80,18 @@ async function renderDashboard(data) {
     const section = document.createElement('section');
     section.className = 'gap-2';
 
-    const categoryTitle = document.createElement('h2');
-    categoryTitle.className = 'text-2xl font-bold mb-2';
-    categoryTitle.textContent = category;
+    const categoryTitle = document.createElement('button');
+    categoryTitle.className = 'text-2xl font-bold mb-2 flex items-center gap-2 cursor-default';
+    categoryTitle.innerHTML = `
+      <span class="transform transition-transform duration-200">&#9656;</span>
+      ${category}
+    `;
+
+    categoryTitle.addEventListener('click', () => {
+      itemsContainer.classList.toggle('hidden');
+      const arrow = categoryTitle.querySelector('span');
+      arrow.style.transform = itemsContainer.classList.contains('hidden') ? 'rotate(90deg)' : 'rotate(0deg)';
+    });
 
     const itemsContainer = document.createElement('div');
     itemsContainer.className = 'flex flex-col gap-2';
